@@ -90,10 +90,10 @@ const actions = {
       commit(SET_USERS, { users })
     })
   },
-  login ({ commit }, { email, password }) {
+  login ({ commit }, { Email, Password }) {
     commit(LOGIN_BEGIN)
     return auth
-      .login(email, email, password)
+      .login(Email, Email, Password)
       .then(({ data }) => commit(SET_TOKEN, data.key))
       .then(() => commit(LOGIN_SUCCESS))
       .catch(() => commit(LOGIN_FAILURE))
