@@ -1,3 +1,10 @@
 export const ADD_USER = 'ADD_USER'
 export const REMOVE_USER = 'REMOVE_USER'
 export const SET_USERS = 'SET_USERS'
+
+export const LOGIN_BEGIN = 'LOGIN_BEGIN'
+export const LOGIN_FAILURE = 'LOGIN_FAILURE'
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
+export const LOGOUT = 'LOGOUT'
+export const REMOVE_TOKEN = 'REMOVE_TOKEN'
+export const SET_TOKEN = 'SET_TOKEN'

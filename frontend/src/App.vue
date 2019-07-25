@@ -4,6 +4,7 @@
       .columns
         .column.col-2
         .column.col-8.col-md-12
+          login
           header.text-center
             h2 Create user
           create-user
@@ -15,11 +16,14 @@
 <script>
 import CreateUser from './components/CreateUser'
 import UserList from './components/UserList'
+import Login from './components/Login'
+
 export default {
   name: 'app',
   components: {
     'create-user': CreateUser,
-    'user-list': UserList
+    'user-list': UserList,
+    'login': Login
   }
 }
 </script>

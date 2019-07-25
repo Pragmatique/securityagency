@@ -1,11 +1,22 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import auth from '../api/auth'
 import { User } from '../api/users'
+import { HTTP } from '../api/common'
+
 import {
   ADD_USER,
   REMOVE_USER,
-  SET_USERS
+  SET_USERS,
+  LOGIN_BEGIN,
+  LOGIN_FAILURE,
+  LOGIN_SUCCESS,
+  LOGOUT,
+  REMOVE_TOKEN,
+  SET_TOKEN
 } from './mutation-types.js'
+
+const TOKEN_STORAGE_KEY = 'TOKEN_STORAGE_KEY'
 
 Vue.use(Vuex)
 // Состояние
@@ -14,7 +25,8 @@ const state = {
 }
 // Геттеры
 const getters = {
-  notes: state => state.users // получаем список заметок из состояния
+  users: state => state.users, // получаем список заметок из состояния
+  isAuthenticated: state => !!state.token
 }
 // Мутации
 const mutations = {
@@ -31,7 +43,35 @@ const mutations = {
   // Задаем список заметок
   [SET_USERS] (state, { users }) {
     state.users = users
+  },
+
+  [LOGIN_BEGIN] (state) {
+    state.authenticating = true
+    state.error = false
+  },
+  [LOGIN_FAILURE] (state) {
+    state.authenticating = false
+    state.error = true
+  },
+  [LOGIN_SUCCESS] (state) {
+    state.authenticating = false
+    state.error = false
+  },
+  [LOGOUT] (state) {
+    state.authenticating = false
+    state.error = false
+  },
+  [SET_TOKEN] (state, token) {
+    localStorage.setItem(TOKEN_STORAGE_KEY, token)
+    HTTP.defaults.headers.Authorization = `Token ${token}`
+    state.token = token
+  },
+  [REMOVE_TOKEN] (state) {
+    localStorage.removeItem(TOKEN_STORAGE_KEY)
+    delete HTTP.defaults.headers.Authorization
+    state.token = null
   }
+
 }
 // Действия
 const actions = {
@@ -49,6 +89,29 @@ const actions = {
     User.list().then(users => {
       commit(SET_USERS, { users })
     })
+  },
+  login ({ commit }, { email, password }) {
+    commit(LOGIN_BEGIN)
+    return auth
+      .login(email, email, password)
+      .then(({ data }) => commit(SET_TOKEN, data.key))
+      .then(() => commit(LOGIN_SUCCESS))
+      .catch(() => commit(LOGIN_FAILURE))
+  },
+  logout ({ commit }) {
+    return auth
+      .logout()
+      .then(() => commit(LOGOUT))
+      .finally(() => commit(REMOVE_TOKEN))
+  },
+  initialize ({ commit }) {
+    const token = localStorage.getItem(TOKEN_STORAGE_KEY)
+
+    if (token) {
+      commit(SET_TOKEN, token)
+    } else {
+      commit(REMOVE_TOKEN)
+    }
   }
 }
 export default new Vuex.Store({
