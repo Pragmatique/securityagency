@@ -29,7 +29,6 @@ export default {
     login () {
       let Email = this.Email
       let Password = this.Password
-      console.log(Email, Password)
       this.$store.dispatch('login', {
         Email: Email,
         Password: Password
@@ -38,7 +37,6 @@ export default {
 
   },
   mounted () {
-    this.login()
   }
 }
 </script>
