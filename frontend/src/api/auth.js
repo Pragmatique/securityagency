@@ -1,7 +1,7 @@
 import { HTTP } from './common'
 export default {
-  login (Username, Email, Password) {
-    return HTTP.post('/auth/login/', { Username, Email, Password })
+  login (username, email, password) {
+    return HTTP.post('/auth/login/', { username, email, password })
   },
   logout () {
     return HTTP.post('/auth/logout/', {})

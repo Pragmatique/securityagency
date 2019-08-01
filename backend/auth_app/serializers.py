@@ -5,14 +5,14 @@ from .models import User, UserProfile
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
-        fields = ('address', 'city', 'photo')
+        fields = ('id','address', 'city', 'photo')
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     profile = UserProfileSerializer(required=True)
 
     class Meta:
         model = User
-        fields = ('url','email','first_name', 'father_name', 'last_name', 'department', 'position', 'phone','password', 'profile')
+        fields = ('id','url','email','first_name', 'father_name', 'last_name', 'department', 'position', 'phone','password', 'profile', 'date_joined', 'last_login')
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):

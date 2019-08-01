@@ -3,8 +3,8 @@ from rest_framework import viewsets
 from rest_framework.permissions import AllowAny
 from rest_framework import permissions
 
-from .models import User
-from .serializers import UserSerializer
+from .models import User, UserProfile
+from .serializers import UserSerializer, UserProfileSerializer
 from .permissions import IsLoggedInUserOrAdmin, IsAdminUser
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -21,3 +21,8 @@ class UserViewSet(viewsets.ModelViewSet):
     #     elif self.action == 'list' or self.action == 'destroy':
     #         permission_classes = [IsAdminUser]
     #     return [permission() for permission in permission_classes]
+
+class UserProfileViewSet(viewsets.ModelViewSet):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer
+    permission_classes = [permissions.IsAuthenticated]

@@ -61,4 +61,4 @@ class UserProfile(models.Model):
                                 verbose_name="Пользователь")
     address = models.CharField(max_length=255, verbose_name="Адрес")
     city = models.CharField(max_length=50, verbose_name="Город")
-    photo = models.ImageField(blank=True, verbose_name="Фото")
+    photo = models.ImageField(blank=True, verbose_name="Фото", null=True)

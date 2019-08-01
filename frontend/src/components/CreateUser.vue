@@ -2,11 +2,6 @@
   form.form-horizontal(@submit="submitForm")
     .form-group
       .col-3
-        label.form-label Username
-      .col-9
-        input.form-input(type="text" v-model="username" placeholder="Type username...")
-    .form-group
-      .col-3
         label.form-label first_name
       .col-9
         input.form-input(type="text" v-model="first_name" placeholder="Type first_name...")
@@ -59,7 +54,7 @@
       .col-3
         label.form-label photo
       .col-9
-        input.form-input(v-model="photo" v-on:change="onFileChange" placeholder="Set photo...")
+        input.form-input(type="file" v-on:change="handleFileUpload" placeholder="Set photo...")
     .form-group
       .col-3
       .col-9
@@ -81,17 +76,20 @@ export default {
       'password': '',
       'address': '',
       'city': '',
-      'photo': ''
+      'photo': null
 
     }
   },
   methods: {
+    handleFileUpload (event) {
+      this.photo = event.target.files[0]
+      // this.photo = this.$refs.files[0]
+    },
     submitForm (event) {
       this.createUser()
       // Т.к. мы уже отправили запрос на создание заметки строчкой выше,
       // нам нужно теперь очистить поля title и body
 
-      this.username = ''
       this.first_name = ''
       this.father_name = ''
       this.last_name = ''
@@ -102,16 +100,14 @@ export default {
       this.password = ''
       this.address = ''
       this.city = ''
-      this.photo = ''
+      this.photo = null
       // preventDefault нужно для того, чтобы страница
       // не перезагружалась после нажатия кнопки submit
       event.preventDefault()
     },
     createUser () {
-      // Вызываем действие `createNote` из хранилища, которое
-      // отправит запрос на создание новой заметки к нашему API.
-      this.$store.dispatch('createUser', {
-        username: this.username,
+      /* const objectToFormData = require('object-to-formdata')
+      let rawData = {
         first_name: this.first_name,
         father_name: this.father_name,
         last_name: this.last_name,
@@ -120,10 +116,78 @@ export default {
         position: this.position,
         phone: this.phone,
         password: this.password,
+        profile: {
+          address: this.address,
+          city: this.city,
+          photo: this.photo
+        }
+      }
+      rawData = JSON.stringify(rawData) */
+      /* let formData = objectToFormData(rawData) */
+      /* let rawData1 = {
+        first_name: this.first_name,
+        father_name: this.father_name,
+        last_name: this.last_name,
+        email: this.email,
+        department: this.department,
+        position: this.position,
+        phone: this.phone,
+        password: this.password,
+        profile: {
+          address: this.address,
+          city: this.city,
+          photo: this.photo
+        }
+      }
+      rawData1 = JSON.stringify(rawData1) */
+
+      let rawData2 = {
         address: this.address,
         city: this.city,
-        photo: this.photo
-      })
+        photo: null
+      }
+      let formData2 = new FormData()
+      formData2.append('address', this.address)
+      formData2.append('city', this.city)
+      if (this.photo) {
+        formData2.append('photo', this.photo, this.photo.name)
+      } else {
+        formData2.append('photo', null)
+      }
+      let formData = new FormData()
+      formData.append('first_name', this.first_name)
+      formData.append('father_name', this.father_name)
+      formData.append('last_name', this.last_name)
+      formData.append('email', this.email)
+      formData.append('department', this.department)
+      formData.append('position', this.position)
+      formData.append('phone', this.phone)
+      formData.append('password', this.password)
+      /* formData.append('profile', rawData2) */
+      formData.append('profile', null)
+
+      for (var pair of formData.entries()) {
+        console.log(pair[0] + ', ' + pair[1])
+      }
+      // Вызываем действие `createNote` из хранилища, которое
+      // отправит запрос на создание новой заметки к нашему API.
+      let config = {
+        initialData: {
+          username: this.username,
+          first_name: this.first_name,
+          father_name: this.father_name,
+          last_name: this.last_name,
+          email: this.email,
+          department: this.department,
+          position: this.position,
+          phone: this.phone,
+          password: this.password,
+          profile: rawData2
+        },
+        formData: formData2
+      }
+
+      this.$store.dispatch('createUserFull', config)
     }
   }
 }

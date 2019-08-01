@@ -3,11 +3,11 @@
     <form class="login" @submit.prevent="login">
       <h1>Sign in</h1>
       <label>Email</label>
-      <input required v-model='Email' type='text' placeholder='Name' />
+      <input required v-model='email' type='text' placeholder='Name' />
       <label>Password</label>
       <input
         required
-        v-model='Password'
+        v-model='password'
         type='password'
         placeholder='Password'
       />
@@ -21,24 +21,26 @@
 export default {
   data () {
     return {
-      Email: '',
-      Password: ''
+      email: '',
+      password: ''
     }
   },
   methods: {
+    submitForm (event) {
+      this.login()
+      this.email = ''
+      this.password = ''
+    },
     login () {
-      let Email = this.Email
-      let Password = this.Password
-      console.log(Email, Password)
+      let email = this.email
+      let password = this.password
+      console.log(email, password)
       this.$store.dispatch('login', {
-        Email: Email,
-        Password: Password
+        email: email,
+        password: password
       })
     }
 
-  },
-  mounted () {
-    this.login()
   }
 }
 </script>

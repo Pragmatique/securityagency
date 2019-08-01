@@ -1,18 +1,21 @@
 <template>
   <div id="app">
-    <div class="card" v-for="user in users" v-bind:key="user.id">
+    <div class="card" v-for="user in users">
         <div class="card-header"><button class="btn btn-clear float-right" @click="deleteUser(user)"></button>
             <div class="card-title">{{ user.email }}</div>
             <div class="card-subtitle">{{ moment(user.date_joined) }}</div>
         </div>
-        <div v-if="user.profile!==null && user.profile.photo!==null" class="photo-container">
-          <img :src="user.profile.photo" :alt="user.email" height="50px" width="50px" />
-        </div>
-        <div v-else class="photo-container">
-          <img src="../assets/logo.png" :alt="user.email" height="50px" width="50px" />
-        </div>
+        <div class="card-img"><img src={{user.photo}} /></div>
     </div>
   </div>
+  #app
+    .card(v-for="user in users")
+      .card-header
+        button.btn.btn-clear.float-right(@click="deleteUser(user)")
+        .card-title {{ user.email }}
+        .card-subtitle {{ moment(user.date_joined) }}
+      .card-img
+        img(src='user.photo')
 </template>
 <script>
 import { mapGetters } from 'vuex'
@@ -28,9 +31,6 @@ export default {
     },
     moment (date) {
       return moment(date).format('Do MMMM YYYY')
-    },
-    logger (object) {
-      console.log(object)
     }
   },
   filters: {
