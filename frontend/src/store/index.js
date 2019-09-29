@@ -25,6 +25,15 @@ console.log(HTTP.defaults.headers.Authorization)
 
 Vue.use(Vuex)
 // Состояние
+const getDefaultState = () => {
+  return {
+    users: [], // список заметок
+    authenticating: false,
+    error: false,
+    token: localStorage.getItem(TOKEN_STORAGE_KEY)
+  }
+}
+
 const state = {
   users: [], // список заметок
   authenticating: false,
@@ -69,8 +78,9 @@ const mutations = {
     state.error = false
   },
   [LOGOUT] (state) {
-    state.authenticating = false
-    state.error = false
+    state = getDefaultState()
+    // state.authenticating = false
+    // state.error = false
   },
   [SET_TOKEN] (state, token) {
     localStorage.setItem(TOKEN_STORAGE_KEY, token)
@@ -87,60 +97,115 @@ const mutations = {
 }
 // Действия
 const actions = {
-  createUser ({ commit }, userData) {
-    User.create(userData).then(user => {
+  async createUser ({ commit }, userData) {
+    try {
+      const user = await User.create(userData)
+      await commit(ADD_USER, user)
+    } catch (error) {
+      console.error(error)
+    }
+    /* User.create(userData).then(user => {
       commit(ADD_USER, user)
       console.log('result from api call', user)
       return user
-    })
+    }) */
   },
-  deleteUser ({ commit }, user) {
-    User.delete(user).then(response => {
+  async deleteUser ({ commit }, user) {
+    try {
+      await User.delete(user)
+      await commit(REMOVE_USER, user)
+    } catch (error) {
+      console.error(error)
+    }
+    /* User.delete(user).then(response => {
       commit(REMOVE_USER, user)
-    })
+    }) */
   },
-  getUsers ({ commit }) {
-    User.list().then(users => {
+  async getUsers ({ commit }) {
+    try {
+      const users = await User.list()
+      console.log(users)
+      await commit(SET_USERS, { users })
+      console.log(state.users)
+    } catch (error) {
+      console.error(error)
+    }
+    /* User.list().then(users => {
       commit(SET_USERS, { users })
-    })
+    }) */
   },
   updateProfile ({ commit }, config) {
     User.updateProfile(config)
   },
-  login ({ commit }, payload) {
-    commit(LOGIN_BEGIN)
+  async login ({ commit }, payload) {
+    try {
+      commit(LOGIN_BEGIN)
+      const data = await auth.login(payload.email, payload.email, payload.password)
+      console.log(data)
+      await commit(SET_TOKEN, data.data.token)
+      await commit(LOGIN_SUCCESS)
+    } catch (error) {
+      console.error(error)
+      commit(LOGIN_FAILURE)
+    }
+    /* commit(LOGIN_BEGIN)
     return auth
       .login(payload.email, payload.email, payload.password)
       .then(({ data }) => commit(SET_TOKEN, data.token))
       .then(() => commit(LOGIN_SUCCESS))
-      .catch(() => commit(LOGIN_FAILURE))
+      .catch(() => commit(LOGIN_FAILURE)) */
   },
-  logout ({ commit }) {
-    return auth
-      .logout()
-      .then(() => commit(LOGOUT))
-      .finally(() => commit(REMOVE_TOKEN))
-  },
-  initialize ({ commit }) {
-    const token = localStorage.getItem(TOKEN_STORAGE_KEY)
-
-    if (token) {
-      commit(SET_TOKEN, token)
-    } else {
+  async logout ({ commit }) {
+    try {
+      await auth.logout
+      return await commit(LOGOUT)
+    } catch (error) {
+      console.error(error)
+    } finally {
       commit(REMOVE_TOKEN)
     }
+    /* return auth
+      .logout()
+      .then(() => commit(LOGOUT))
+      .finally(() => commit(REMOVE_TOKEN)) */
   },
-  createUserFull ({ commit, dispatch }, userData) {
-    User.create(userData.initialData).then(user => {
-      debugger
-      commit(ADD_USER, user)
-      User.updateProfile({
+  initialize ({ commit }) {
+    try {
+      const token = localStorage.getItem(TOKEN_STORAGE_KEY)
+      if (token) {
+        commit(SET_TOKEN, token)
+      } else {
+        commit(REMOVE_TOKEN)
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  },
+  async createUserFull ({ commit, dispatch }, userData) {
+    try {
+      const user = await User.create(userData.initialData)
+      const profile = await User.updateProfile({
         id: user.profile.id,
         formData: userData.formData
       })
+      user.profile = profile
+      commit(ADD_USER, user)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+  /* createUserFull ({ commit, dispatch }, userData) {
+    User.create(userData.initialData).then(user => {
       console.log('result from api call', user)
-    })
-    /* return new Promise((resolve, reject) => {
+      return User.updateProfile({
+        id: user.profile.id,
+        formData: userData.formData
+      }).then(profile => {
+        user.profile = profile
+        return user
+      })
+    }).then(user => { commit(ADD_USER, user) })
+    *//* return new Promise((resolve, reject) => {
       // Do something here... lets say, a http call using vue-resource
       dispatch('createUser', userData.initialData).then(response => {
         resolve(response)
@@ -152,14 +217,14 @@ const actions = {
         id: response.json().id,
         formData: userData.formData
       })
-    }) */
-    /* dispatch('createUser', userData.initialData).then(response => {
+    }) *//*
+    *//* dispatch('createUser', userData.initialData).then(response => {
       User.updateProfile({
         id: response.data.id,
         formData: userData.formData
       })
-    }) */
-  }
+    }) *//*
+  } */
 }
 export default new Vuex.Store({
   state,

@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django_dbconn_retry',
 
     'auth_app',
+    'project_status',
 ]
 
 AUTH_USER_MODEL = 'auth_app.User'

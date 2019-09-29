@@ -1,39 +1,53 @@
-<template lang="pug">
-  #app
-    section.container.grid-960
-      .columns
-        .column.col-2
-        .column.col-8.col-md-12
-          login
-          header.text-center
-            h2 Create user
-          create-user
-          header.text-center
-            h2 List of users
-          user-list
-        .column.col-2
+<template>
+  <div id="app">
+    <template v-if="!$route.meta.allowAnonymous">
+      <v-app id="inspire">
+        <div class="app-container">
+          <toolbar @toggleNavigationBar="drawer = !drawer"/>
+          <navigation :toggle="drawer"/>
+          <v-content>
+            <breadcrumbs />
+            <router-view/>
+            <page-footer />
+          </v-content>
+        </div>
+      </v-app>
+    </template>
+    <template v-else>
+      <transition>
+        <keep-alive>
+          <router-view></router-view>
+        </keep-alive>
+      </transition>
+    </template>
+  </div>
 </template>
+
 <script>
-import CreateUser from './components/CreateUser'
-import UserList from './components/UserList'
-import Login from './components/Login'
+import Toolbar from '@/admin_components/core/Toolbar'
+import Breadcrumbs from '@/admin_components/core/Breadcrumbs'
+import NavigationDrawer from '@/admin_components/core/NavigationDrawer'
+import PageFooter from '@/admin_components/core/PageFooter'
+
 
 export default {
-  name: 'app',
+  name: 'App',
+  data() {
+    return {
+      drawer: true
+    }
+  },
   components: {
-    'create-user': CreateUser,
-    'user-list': UserList,
-    'login': Login
+    'toolbar': Toolbar,
+    'breadcrumbs': Breadcrumbs,
+    'navigation-drawer': NavigationDrawer,
+    'page-footer': PageFooter
+  },
+  mounted(){
+    debugger
   }
 }
 </script>
+
 <style>
-  @import url(https://fonts.googleapis.com/css?family=Eczar);
-  @import url(https://fonts.googleapis.com/css?family=Work+Sans);
-  body {
-    font-family: "Work Sans", "Segoe UI", "Helvetica Neue", sans-serif;
-  }
-  h1, h2, h3, h4, h5, h6 {
-    font-family: "Eczar", sans-serif;
-  }
 </style>

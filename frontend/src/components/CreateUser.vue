@@ -19,7 +19,7 @@
       .col-3
         label.form-label email
       .col-9
-        input.form-input(type="text" v-model="email" placeholder="Type email...")
+        input.form-input(type="email" v-model="email" placeholder="Type email...")
     .form-group
       .col-3
         label.form-label department
@@ -39,7 +39,7 @@
       .col-3
         label.form-label password
       .col-9
-        input.form-input(type="text" v-model="password" placeholder="Type password...")
+        input.form-input(type="password" v-model="password" placeholder="Type password...")
     .form-group
       .col-3
         label.form-label address
@@ -141,7 +141,7 @@ export default {
       }
       rawData1 = JSON.stringify(rawData1) */
 
-      let rawData2 = {
+      const rawData2 = {
         address: this.address,
         city: this.city,
         photo: null
@@ -154,21 +154,9 @@ export default {
       } else {
         formData2.append('photo', null)
       }
-      let formData = new FormData()
-      formData.append('first_name', this.first_name)
-      formData.append('father_name', this.father_name)
-      formData.append('last_name', this.last_name)
-      formData.append('email', this.email)
-      formData.append('department', this.department)
-      formData.append('position', this.position)
-      formData.append('phone', this.phone)
-      formData.append('password', this.password)
-      /* formData.append('profile', rawData2) */
-      formData.append('profile', null)
-
-      for (var pair of formData.entries()) {
+      /* for (var pair of formData.entries()) {
         console.log(pair[0] + ', ' + pair[1])
-      }
+      } */
       // Вызываем действие `createNote` из хранилища, которое
       // отправит запрос на создание новой заметки к нашему API.
       let config = {
@@ -188,6 +176,7 @@ export default {
       }
 
       this.$store.dispatch('createUserFull', config)
+      this.$router.push('/userlist')
     }
   }
 }
