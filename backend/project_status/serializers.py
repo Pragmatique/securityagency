@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import ProjectStatus, PropertyType, ServiceType
+from .models import ProjectStatus, PropertyType, ServiceType, ObjectType
 
 class ProjectStatusSerializer(serializers.ModelSerializer):
     class Meta:
@@ -15,3 +15,8 @@ class ServiceTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = ServiceType
         fields = ('id','service_type')
+
+class ObjectTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ObjectType
+        fields = ('id','object_type')
