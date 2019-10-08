@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^api/', include('auth_app.urls')),
     url(r'^api/', include('project_status.urls')),
     url(r'^api/', include('contact.urls')),
+    url(r'^api/', include('client.urls')),
 ]
 
 if settings.DEBUG:
