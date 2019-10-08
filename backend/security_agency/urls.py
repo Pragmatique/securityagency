@@ -25,6 +25,8 @@ urlpatterns = [
     url(r'^api/', include('project_status.urls')),
     url(r'^api/', include('contact.urls')),
     url(r'^api/', include('client.urls')),
+    url(r'^api/', include('object.urls')),
+    url(r'^api/', include('payment_conditions.urls')),
 ]
 
 if settings.DEBUG:

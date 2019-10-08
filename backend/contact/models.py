@@ -15,7 +15,7 @@ class Contact(models.Model):
     email = models.EmailField(max_length=200, blank=True, db_index=True, verbose_name="Емейл")
     date_birth = models.DateField(blank=True, verbose_name="Дата рождения")
     tax_number = models.CharField(max_length=10, blank=True, verbose_name="ИНН")
-    passport_number = models.CharField(max_length=7, blank=True, verbose_name="Пасспорт")
+    passport_number = models.CharField(max_length=7, blank=True, verbose_name="Паспорт")
     position = models.CharField(max_length=200, blank=True, verbose_name="Должность")
     photo = models.ImageField(upload_to='contacts/',blank=True, verbose_name="Фото")
     created = models.DateTimeField(auto_now_add=True)

@@ -6,9 +6,9 @@ from project_status.models import ClientType
 class Client(models.Model):
     contact_id = models.ForeignKey(Contact,
                                  related_name='client', on_delete=models.CASCADE, blank=True)
-    company_name = models.CharField(max_length=200, verbose_name="Пасспорт")
-    channel = models.CharField(max_length=200, blank=True, verbose_name="Отчество")
-    referal_program = models.CharField(max_length=200, blank=True, verbose_name="Фамилия")
+    company_name = models.CharField(max_length=200, verbose_name="Название компании")
+    channel = models.CharField(max_length=200, blank=True, verbose_name="Канал захода")
+    referal_program = models.CharField(max_length=200, blank=True, verbose_name="Реферальная программа")
     client_type = models.ForeignKey(ClientType,
                                     related_name='clients', blank=True, on_delete=models.CASCADE)
     city = models.CharField(max_length=50, blank=True, verbose_name="Город")

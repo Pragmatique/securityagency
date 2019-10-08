@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'project_status',
     'contact',
     'client',
+    'object',
+    'payment_conditions',
 ]
 
 AUTH_USER_MODEL = 'auth_app.User'
