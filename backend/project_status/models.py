@@ -20,4 +20,4 @@ class MainContractors(models.Model):
     contractor = models.CharField(max_length=250, verbose_name="Основные партнеры")
 
 class ClientType(models.Model):
-    contractor = models.CharField(max_length=50, verbose_name="Тип клиента")
+    type = models.CharField(max_length=50, verbose_name="Тип клиента")
