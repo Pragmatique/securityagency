@@ -14,10 +14,10 @@ class ObjectType(models.Model):
     object_type = models.CharField(max_length=50, verbose_name="Тип объекта")
 
 class PaymentType(models.Model):
-    payment_type = models.CharField(max_length=50, verbose_name="Тип объекта")
+    payment_type = models.CharField(max_length=50, verbose_name="Тип платежа")
 
 class MainContractors(models.Model):
-    contractor = models.CharField(max_length=250, verbose_name="Тип объекта")
+    contractor = models.CharField(max_length=250, verbose_name="Основные партнеры")
 
 class ClientType(models.Model):
     contractor = models.CharField(max_length=50, verbose_name="Тип клиента")
