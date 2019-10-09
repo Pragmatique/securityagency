@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^api/', include('client.urls')),
     url(r'^api/', include('object.urls')),
     url(r'^api/', include('payment_conditions.urls')),
+    url(r'^api/', include('mounting.urls')),
 ]
 
 if settings.DEBUG:

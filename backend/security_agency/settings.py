@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'client',
     'object',
     'payment_conditions',
+    'mounting',
 ]
 
 AUTH_USER_MODEL = 'auth_app.User'
