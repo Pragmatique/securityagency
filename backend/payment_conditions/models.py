@@ -7,7 +7,7 @@ from project_status.models import PaymentType
 class PaymentConditions(models.Model):
     payment_type = models.ForeignKey(PaymentType,
                                     related_name='by_payment_conditions', on_delete=models.CASCADE, blank=True,
-                                    verbose_name="Способ оплаты")
+                                    verbose_name="Способ оплаты", null=True)
     material_liability = models.PositiveIntegerField(blank=True, verbose_name="Материальная ответственность")
     base_payment = models.PositiveIntegerField(blank=True, verbose_name="Базовая оплата")
     extra_departure_value = models.PositiveIntegerField(blank=True, verbose_name="Стоимость дополнительного выезда")

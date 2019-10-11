@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'payment_conditions',
     'mounting',
     'object_formular',
+    'project',
 ]
 
 AUTH_USER_MODEL = 'auth_app.User'

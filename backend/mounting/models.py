@@ -7,12 +7,12 @@ from project_status.models import MainContractors, PaymentType
 class Mounting(models.Model):
     contractor_id = models.ForeignKey(MainContractors,
                                     related_name='contractor_by_mounting', on_delete=models.CASCADE, blank=True,
-                                    verbose_name="Компания на монтаж")
+                                    verbose_name="Компания на монтаж", null=True)
     mounting = models.CharField(max_length=50, default="Монтаж", verbose_name="Монтаж")
     object_inspection = models.BooleanField(default=False, verbose_name="Осмотр объекта")
     payment_type_id = models.ForeignKey(PaymentType,
                                     related_name='type_by_mounting', on_delete=models.CASCADE, blank=True,
-                                    verbose_name="Способ оплаты")
+                                    verbose_name="Способ оплаты", null=True)
     estimate = models.PositiveIntegerField(blank=True, verbose_name="Смета")
     mounting_value = models.PositiveIntegerField(blank=True, verbose_name="Сумма за монтаж")
     mounting_income = models.PositiveIntegerField(blank=True, verbose_name="Доход от монтажа")

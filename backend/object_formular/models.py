@@ -7,7 +7,7 @@ from auth_app.models import User
 class ObjectFormular(models.Model):
     mounter_id = models.ForeignKey(User,
                                     related_name='by_objformular', on_delete=models.CASCADE, blank=True,
-                                    verbose_name="Монтажор")
+                                    verbose_name="Монтажор", null=True)
     control_panel_num = models.CharField(max_length=50, blank=True, verbose_name="Номер пульта")
     ppk_model = models.CharField(max_length=50, blank=True, verbose_name="Модель ППК")
     ppk_num = models.CharField(max_length=50, blank=True, verbose_name="Номер ППК")

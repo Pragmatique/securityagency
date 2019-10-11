@@ -5,12 +5,12 @@ from project_status.models import ClientType
 # Create your models here.
 class Client(models.Model):
     contact_id = models.ForeignKey(Contact,
-                                 related_name='client', on_delete=models.CASCADE, blank=True)
-    company_name = models.CharField(max_length=200, verbose_name="Название компании")
+                                 related_name='client', on_delete=models.CASCADE, blank=True, null=True)
+    company_name = models.CharField(max_length=200, verbose_name="Название компании", blank=True)
     channel = models.CharField(max_length=200, blank=True, verbose_name="Канал захода")
     referal_program = models.CharField(max_length=200, blank=True, verbose_name="Реферальная программа")
     client_type = models.ForeignKey(ClientType,
-                                    related_name='clients', blank=True, on_delete=models.CASCADE)
+                                    related_name='clients', blank=True, on_delete=models.CASCADE, null=True)
     city = models.CharField(max_length=50, blank=True, verbose_name="Город")
     street = models.CharField(max_length=100, blank=True, verbose_name="Улица")
     house_num = models.PositiveIntegerField(blank=True, verbose_name="Номер дома")
