@@ -29,4 +29,4 @@ class ObjectFormular(models.Model):
         ordering = ('control_panel_num',)
 
     def __str__(self):
-        return self.control_panel_num + self.mounter_id
+        return str(self.control_panel_num) + str(self.mounter_id)
